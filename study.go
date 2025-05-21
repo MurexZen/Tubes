@@ -1,187 +1,265 @@
 package main
 
-import"fmt"
+import "fmt"
 
 const NMAX int = 1024
 
-type deadline struct{
-	tahun    int
-	bulan    int
-	tanggal  int
+type deadline struct {
+	tahun   int
+	bulan   int
+	tanggal int
 }
 
-type datuma struct{
+type datuma struct {
 	proyek   string
 	klien    string
 	status   string
 	bayaran  int
-	deadline deadline 
+	deadline deadline
 }
 
-type arrData[NMAX-1]datuma
+type arrData [NMAX]datuma // Corrected the array type definition
 
-func main(){
+func main() {
 	var isiDatuma arrData
 	var n, countDatuma int
-	
-	tesData(isiDatuma, &countDatuma)
-	
+
+	tesData(&isiDatuma, &countDatuma) // Pass the address of isiDatuma
+
 	for n < 6 {
 		menu()
 		fmt.Scan(&n)
 		switch n {
-			case 1:
-				tambahData(...)
-			case 2:
-				editOption(isiDatuma, &countDatuma)
-			case 3:
-				searchOption(&isiDatuma, &countDatuma)//udh
-			case 4:
-				sortOption(&isiDatuma, &countDatuma)//spek terpenuhi, pelajari lagi
-			case 5:
-				showTable(&isiDatuma, countDatuma)//sesai
-			case 6:
-				fmt.Println("[PROGRAM SELESAI]")
-			default:
-				fmt.Println("[INVALID]")
+		case 1:
+			dataLine(&isiDatuma, &countDatuma)
+		case 2:
+			editOption(&isiDatuma, &countDatuma)
+		case 3:
+			searchOption(&isiDatuma, &countDatuma)
+		case 4:
+			sortOption(&isiDatuma, countDatuma)
+		case 5:
+			showTable(&isiDatuma, countDatuma)
+		case 6:
+			fmt.Println("[PROGRAM SELESAI]")
+		default:
+			fmt.Println("[INVALID]")
 		}
 	}
 }
 
-func editOption(dT *arrData, cDT *int){
+func dataLine(dT *arrData, cDT *int) {
 	var opsi int
-	var tanyaLine arrData
+	fmt.Println("\n\t\t     MENAMBAHKAN ATAU MENGHAPUS ? ")
+	fmt.Println("\t\t     1. MENAMBAHKAN")
+	fmt.Println("\t\t     2. MENGHAPUS")
+	fmt.Scan(&opsi)
+
+	switch opsi {
+	case 1:
+		add(dT, cDT)
+	case 2:
+		del(dT, cDT)
+	default:
+		fmt.Println("\t\t     [INVALID]")
+	}
+}
+
+func add(T *arrData, n *int) {
+	if *n >= NMAX {
+		fmt.Println("[!] Kapasitas data penuh. Tidak bisa menambah lagi.")
+		return
+	}
+
+	fmt.Println("\n[INPUT DATA BARU]")
+	fmt.Print("Masukkan nama proyek: ")
+	fmt.Scan(&T[*n].proyek)
+
+	fmt.Print("Masukkan nama klien: ")
+	fmt.Scan(&T[*n].klien)
+
+	fmt.Println("Masukkan deadline:")
+	fmt.Print("Tahun  : ")
+	fmt.Scan(&T[*n].deadline.tahun)
+	fmt.Print("Bulan  : ")
+	fmt.Scan(&T[*n].deadline.bulan)
+	fmt.Print("Tanggal: ")
+	fmt.Scan(&T[*n].deadline.tanggal)
+
+	fmt.Print("Masukkan status: ")
+	fmt.Scan(&T[*n].status)
+
+	fmt.Print("Masukkan bayaran: ")
+	fmt.Scan(&T[*n].bayaran)
+
+	*n++
+	fmt.Println("\n[✓] Data berhasil ditambahkan.")
+}
+
+func del(T *arrData, n *int) {
+	var index int
+	fmt.Print("\nMasukkan indeks data yang ingin dihapus (mulai dari 0): ")
+	fmt.Scan(&index)
+
+	if index < 0 || index >= *n {
+		fmt.Println("[!] Indeks tidak valid.")
+		return
+	}
+
+	for i := index; i < *n-1; i++ {
+		T[i] = T[i+1]
+	}
+
+	T[*n-1] = datuma{} // hapus isi yang terakhir
+	*n--
+
+	fmt.Println("\n[✓] Data berhasil dihapus.")
+}
+
+func editOption(dT *arrData, cDT *int) {
+	var opsi int
+	var tanyaLine int
 	fmt.Println("\n\t\t     PILIH LINE UNTUK DIEDIT: ")
-	fmt.Scan(&tanyaLine[NMAX-1])
+	fmt.Scan(&tanyaLine)
+
+	if tanyaLine < 0 || tanyaLine >= *cDT {
+		fmt.Println("[!] Line tidak valid.")
+		return
+	}
+
 	fmt.Println("\n\t\t     PILIH JENIS TIPE DATA: ")
 	fmt.Println("\t\t     1. Edit Spesifik")
 	fmt.Println("\t\t     2. Satu line")
 	fmt.Scan(&opsi)
-	
-	switch opsi{
-		case 1:
-			editSpecific(dT,cDT,"Proyek")
-		case 2:
-			editLine(...)
-		default:
-			fmt.Println("\t\t     [INVALID]")
+
+	switch opsi {
+	case 1:
+		editSpecific(dT, cDT, tanyaLine)
+	case 2:
+		editLine(dT, cDT, tanyaLine)
+	default:
+		fmt.Println("\t\t     [INVALID]")
 	}
 }
 
-func editLine
+func editLine(T *arrData, n *int, index int) {
+	fmt.Println("\n[EDIT SELURUH LINE]")
 
-func editSpecific(T *arrData, n *int){
-	
-	
+	fmt.Print("Masukkan nama proyek: ")
+	fmt.Scan(&T[index].proyek)
+
+	fmt.Print("Masukkan nama klien: ")
+	fmt.Scan(&T[index].klien)
+
+	fmt.Println("Masukkan deadline:")
+	fmt.Print("Tahun  : ")
+	fmt.Scan(&T[index].deadline.tahun)
+	fmt.Print("Bulan  : ")
+	fmt.Scan(&T[index].deadline.bulan)
+	fmt.Print("Tanggal: ")
+	fmt.Scan(&T[index].deadline.tanggal)
+
+	fmt.Print("Masukkan status: ")
+	fmt.Scan(&T[index].status)
+
+	fmt.Print("Masukkan bayaran: ")
+	fmt.Scan(&T[index].bayaran)
 }
 
+func editSpecific(T *arrData, n *int, indek int) {
+	var opsi int
+	fmt.Println("\n[EDIT SPESIFIK FIELD]")
+	fmt.Println("1. Nama Proyek")
+	fmt.Println("2. Nama Klien")
+	fmt.Println("3. Status")
+	fmt.Println("4. Bayaran")
+	fmt.Println("5. Deadline")
+	fmt.Print("Pilih yang ingin diedit: ")
+	fmt.Scan(&opsi)
 
+	switch opsi {
+	case 1:
+		fmt.Print("Masukkan nama proyek baru: ")
+		fmt.Scan(&T[indek].proyek)
+	case 2:
+		fmt.Print("Masukkan nama klien baru: ")
+		fmt.Scan(&T[indek].klien)
+	case 3:
+		fmt.Print("Masukkan status baru: ")
+		fmt.Scan(&T[indek].status)
+	case 4:
+		fmt.Print("Masukkan bayaran baru: ")
+		fmt.Scan(&T[indek].bayaran)
+	case 5:
+		fmt.Println("Masukkan deadline baru:")
+		fmt.Print("Tahun  : ")
+		fmt.Scan(&T[indek].deadline.tahun)
+		fmt.Print("Bulan  : ")
+		fmt.Scan(&T[indek].deadline.bulan)
+		fmt.Print("Tanggal: ")
+		fmt.Scan(&T[indek].deadline.tanggal)
+	default:
+		fmt.Println("[!] Pilihan tidak valid.")
+	}
+}
 
-func menu(){
-	fmt.Println("1. TAMBAHKAN DATA")//tambah line baru di data
-	fmt.Println("2. EDIT DATA")//isinya PERBAHARUI DATA(update status) dan HAPUS DATA(bisa satu line di hapus dari tabel)
-	fmt.Println("3. CARI DATA")//cari data berdasarkan klien atau proyek
-	fmt.Println("4. URUTKAN DATA")//urutkan berdasarkan deadline atau bayaran dari tertinggi (ya dari terendah sekalian)
-	fmt.Println("5. TAMPILKAN DALAM TABEL")//ya tampilin tabel biar enak diliat
+func menu() {
+	fmt.Println("1. TAMBAHKAN DATA")
+	fmt.Println("2. EDIT DATA")
+	fmt.Println("3. CARI DATA")
+	fmt.Println("4. URUTKAN DATA")
+	fmt.Println("5. TAMPILKAN DALAM TABEL")
 	fmt.Println("6. EXIT")
 }
 
-func tesData(info *arrData, tInfo *int){
-	info[0].proyek = "Desain Logo Brand"
-	info[0].klien = "Amamiya Ren"
-	info[0].deadline = deadline{2025,6,1}
-	info[0].status = "Sedang dikerjakan"
-	info[0].bayaran = 1500000
-	info[1].proyek = "Website Portfolio"
-	info[1].klien = "Indra Shalala"
-	info[1].deadline = deadline{2025,5,20}
-	info[1].status = "Selesai"
-	info[1].bayaran = 800000
-	info[2].proyek = "Postingan Threads"
-	info[2].klien = "sayaRajen"
-	info[2].deadline = deadline{2025,5,25}
-	info[2].status = "Pending"
-	info[2].bayaran = 202000
-	info[3].proyek = "School Project"
-	info[3].klien = "user123"
-	info[3].deadline = deadline{2025,6,16}
-	info[3].status = "Sedang dikerjakan"
-	info[3].bayaran = 500000
-	info[4].proyek = "perawatan akun"
-	info[4].klien = "NinjaOrganik"
-	info[4].deadline = "2025-02-08"
-	info[4].deadline = deadline{2025,2,8}
-	info[4].status = "selesai"
-	info[4].bayaran = 489000
+func tesData(info *arrData, tInfo *int) {
+	info[0] = datuma{"Desain Logo Brand", "Amamiya Ren", "Sedang dikerjakan", 1500000, deadline{2025, 6, 1}}
+	info[1] = datuma{"Website Portfolio", "Indra Shalala", "Selesai", 800000, deadline{2025, 5, 20}}
+	info[2] = datuma{"Postingan Threads", "sayaRajen", "Pending", 202000, deadline{2025, 5, 25}}
+	info[3] = datuma{"School Project", "user123", "Sedang dikerjakan", 500000, deadline{2025, 6, 16}}
+	info[4] = datuma{"perawatan akun", "NinjaOrganik", "selesai", 489000, deadline{2025, 2, 8}}
 	*tInfo = 5
 }
 
-func searchOption(dT *arrData, cDT *int){
+func searchOption(dT *arrData, cDT *int) {
 	var opsi int
 	var keyword string
-	
+
 	fmt.Println("\n\t\t Masukkan nama yang dicari")
 	fmt.Scan(&keyword)
 	fmt.Println("\n\t\t     PILIH JENIS PENCARIAN")
-	fmt.Println("\t\t     1.Berdasarkan Klien")
-	fmt.Println("\t\t     2.Berdasarkan Proyek")
+	fmt.Println("\t\t     1. Berdasarkan Klien")
+	fmt.Println("\t\t     2. Berdasarkan Proyek")
 	fmt.Print("\t\t     pilih opsi: ")
 	fmt.Scan(&opsi)
-	
+
 	switch opsi {
-		case 1:
-			searchNamaBin(dT, cDT, keyword, "Klien")
-		case 2:
-			searchNamaSeq(dT, cDT, keyword, "Proyek")
-		default:
-			fmt.Println("\t\t     [INVALID]")
+	case 1:
+		searchNamaBin(dT, cDT, keyword, "Klien")
+	case 2:
+		searchNamaSeq(dT, cDT, keyword, "Proyek")
+	default:
+		fmt.Println("\t\t     [INVALID]")
 	}
 }
 
-func searchNamaSeq ( T *arrData, n *int,kW, by string){
+func searchNamaSeq(T *arrData, n *int, kW, by string) {
 	var found bool = false
-	var temp string
-	var i int
-	var j int = 0
-	
-	for i = 0; i < n; i++{
-		if kW == T[i].klien{
-			//var j int = 0
-			for j < n && !found{
-				found = T[i].klien
-				if found==false{
-					fmt.Println("\n[!] Data tidak ditemukan.")
-				}else if found==true{
-		
-					fmt.Println("\n[DATA DITEMUKAN]")
-					fmt.Printf("Proyek   : %s\n", T[i].proyek)
-					fmt.Printf("Klien    : %s\n", T[i].klien)
-					fmt.Printf("Deadline : %d-%d-%d\n", T[i].deadline.tahun,T[i].deadline.bulan,T[i].deadline.tanggal)
-					fmt.Printf("Status   : %s\n", T[i].status)
-					fmt.Printf("Bayaran  : Rp %d\n", T[i].bayaran)
-					found = true
-					
-				}
-			}
-		}else if kW == T[i].proyek{
-			//var j int = 0
-			for j < n && !found{
-				found = T[i].proyek
-				if found==false{
-					fmt.Println("\n[!] Data tidak ditemukan.")
-				}else { //tidak pakai if found==true
-		
-					fmt.Println("\n[DATA DITEMUKAN]")
-					fmt.Printf("Proyek   : %s\n", T[i].proyek)
-					fmt.Printf("Klien    : %s\n", T[i].klien)
-					fmt.Printf("Deadline : %d-%d-%d\n", T[i].deadline.tahun,T[i].deadline.bulan,T[i].deadline.tanggal)
-					fmt.Printf("Status   : %s\n", T[i].status)
-					fmt.Printf("Bayaran  : Rp %d\n", T[i].bayaran)
-					found = true
-					
-				}
-			}
+
+	for i := 0; i < *n; i++ {
+		if kW == T[i].klien || kW == T[i].proyek {
+			fmt.Println("\n[DATA DITEMUKAN]")
+			fmt.Printf("Proyek   : %s\n", T[i].proyek)
+			fmt.Printf("Klien    : %s\n", T[i].klien)
+			fmt.Printf("Deadline : %d-%d-%d\n", T[i].deadline.tahun, T[i].deadline.bulan, T[i].deadline.tanggal)
+			fmt.Printf("Status   : %s\n", T[i].status)
+			fmt.Printf("Bayaran  : Rp %d\n", T[i].bayaran)
+			found = true
 		}
+	}
+
+	if !found {
+		fmt.Println("\n[!] Data tidak ditemukan.")
 	}
 }
 
@@ -205,7 +283,7 @@ func searchNamaBin(T *arrData, n *int, kW, by string) {
 			return
 		}
 
-		if keyword == current {
+		if kW == current {
 			fmt.Println("\n[DATA DITEMUKAN]")
 			fmt.Println("Proyek   :", T[mid].proyek)
 			fmt.Println("Klien    :", T[mid].klien)
@@ -213,7 +291,7 @@ func searchNamaBin(T *arrData, n *int, kW, by string) {
 			fmt.Println("Status   :", T[mid].status)
 			fmt.Println("Bayaran  : Rp", T[mid].bayaran)
 			found = true
-		} else if keyword < current {
+		} else if kW < current {
 			right = mid - 1
 		} else {
 			left = mid + 1
@@ -225,27 +303,25 @@ func searchNamaBin(T *arrData, n *int, kW, by string) {
 	}
 }
 
-
-
-
-func showTable(dT *arrData, cDT int){
-	var i int 
-	var found bool
-	
+func showTable(dT *arrData, cDT int) {
 	fmt.Println("\n==================== TABEL DATA PROYEK ====================")
-	fmt.Println("No\tProyek\tKlien\tDeadline\tStatus\tBayaran")
+	fmt.Println("No\tProyek\t\tKlien\t\tDeadline\tStatus\tBayaran")
 	fmt.Println("--------------------------------------------------------------------")
 
-	for i = 0; i < NMAX; i++{
-		if dT[i].proyek == ""{
-			found = true
-		fmt.Println(i+1,"\t",dT[i].proyek,"\t",dT[i].klien,"\t",dT[i].deadline,"\t",dT[i].status,"\t",dT[i].bayaran)
-		}
-		
+	for i := 0; i < cDT; i++ {
+		fmt.Printf("%d\t%s\t%s\t%d-%d-%d\t%s\tRp %d\n",
+			i+1,
+			dT[i].proyek,
+			dT[i].klien,
+			dT[i].deadline.tahun,
+			dT[i].deadline.bulan,
+			dT[i].deadline.tanggal,
+			dT[i].status,
+			dT[i].bayaran)
 	}
 }
 
-func sortOption(dT *arrData, cDT int){
+func sortOption(dT *arrData, cDT int) {
 	var opsi int
 	fmt.Println("\n\t\t     OPSI SORT DATA")
 	fmt.Println("\t\t     1. Berdasarkan Deadline[kecil -> terbesar]")
@@ -254,52 +330,50 @@ func sortOption(dT *arrData, cDT int){
 	fmt.Println("\t\t     4. Berdasarkan Bayaran[besar -> terkecil]")
 	fmt.Print("\t\t     pilih opsi: ")
 	fmt.Scan(&opsi)
-	
-	switch opsi{
-		case 1:
-			typeSortInsertion(dT, *cDT, "deadline_asc")
-		case 2:
-			typeSortInsertion(dT, *cDT, "deadline_desc")
-		case 3:
-			typeSortSelection(dT, *cDT, "bayaran_asc")
-		case 4:
-			typeSortInsertion(dT, *cDT, "bayaran_desc")
-		default:
-			fmt.Println("\t\t     [INVALID]")
+
+	switch opsi {
+	case 1:
+		typeSortInsertion(dT, &cDT, "deadline_asc")
+	case 2:
+		typeSortInsertion(dT, &cDT, "deadline_desc")
+	case 3:
+		typeSortSelection(dT, &cDT, "bayaran_asc")
+	case 4:
+		typeSortInsertion(dT, &cDT, "bayaran_desc")
+	default:
+		fmt.Println("\t\t     [INVALID]")
 	}
 }
 
-func convertDate(date deadline)int{
-	//mengubah dari yang seperti 2025-05-14 menjadi 20250514
-	return d.tahun*10000+d.bulan*100+d.tanggal
+func convertDate(date deadline) int {
+	// Convert from date structure to an integer format YYYYMMDD
+	return date.tahun*10000 + date.bulan*100 + date.tanggal
 }
 
-func typeSortInsertion(T *arrData, n *int, by string){
-	var i, j int
+func typeSortInsertion(T *arrData, n *int, by string) {
 	var temp datuma
-	var swap bool 
-	
-	for i = 1;i < n;i++{
+
+	for i := 1; i < *n; i++ {
 		temp = T[i]
-		j = i - 1
-	
+		j := i - 1
+
 		for j >= 0 {
-			swap = false
-				
+			swap := false
+
 			if by == "deadline_asc" {
-				if convertDate(T[j].deadline) > convertDate(T[j+1].deadline) {
+				if convertDate(T[j].deadline) > convertDate(temp.deadline) {
 					swap = true
 				}
 			} else if by == "deadline_desc" {
-				if convertDate(T[j].deadline) < convertDate(T[j+1].deadline) {
+				if convertDate(T[j].deadline) < convertDate(temp.deadline) {
 					swap = true
 				}
 			} else if by == "bayaran_asc" {
-				if T[j].bayaran > T[j+1].bayaran {
+				if T[j].bayaran > temp.bayaran {
 					swap = true
 				}
 			} else if by == "bayaran_desc" {
-				if T[j].bayaran < T[j+1].bayaran {
+				if T[j].bayaran < temp.bayaran {
 					swap = true
 				}
 			}
@@ -307,47 +381,42 @@ func typeSortInsertion(T *arrData, n *int, by string){
 			if swap {
 				T[j+1] = T[j]
 				j--
-			}else {
-				j = -1
+			} else {
+				break
 			}
 		}
-		T[j+1]=temp
+		T[j+1] = temp
 	}
-	fmt.Println("\n Data berhasil diurutkan berdasarkan",by)
+	fmt.Println("\nData berhasil diurutkan berdasarkan", by)
 	showTable(T, *n)
 }
 
-func typeSortSelection(T *arrData, n *int, b string){
-	var i, min, j int
-	var temp datuma
-	for i = 0; i < *n;i++{
-		min = i
-		for j = i+1; j < *n;j++{
-			///////
-			if by == "deadline_asc"{
-				if convertDate(T[j].deadline) < convertDate(T[min].deadline){
+func typeSortSelection(T *arrData, n *int, by string) {
+	for i := 0; i < *n; i++ {
+		min := i
+		for j := i + 1; j < *n; j++ {
+			if by == "deadline_asc" {
+				if convertDate(T[j].deadline) < convertDate(T[min].deadline) {
 					min = j
 				}
-			}else if by == "deadline_desc"{
-				if convertDate(T[j].deadline) < convertDate(T[min].deadline){
+			} else if by == "deadline_desc" {
+				if convertDate(T[j].deadline) > convertDate(T[min].deadline) {
 					min = j
 				}
-			}else if by == "bayaran_asc"{
-				if T[j].bayaran < T[min].bayaran{
+			} else if by == "bayaran_asc" {
+				if T[j].bayaran < T[min].bayaran {
 					min = j
 				}
-			}else if by == "bayaran_desc"{
-				if T[j].bayaran < T[min].bayaran{
+			} else if by == "bayaran_desc" {
+				if T[j].bayaran > T[min].bayaran {
 					min = j
 				}
 			}
 		}
-		if min != i{
-			temp = T[min]
-			T[min] = T[i]
-			T[i] = temp
+		if min != i {
+			T[i], T[min] = T[min], T[i] // Swap
 		}
 	}
-	fmt.Println("\n Data berhasil diurutkan berdasarkan",by)
+	fmt.Println("\nData berhasil diurutkan berdasarkan", by)
 	showTable(T, *n)
 }
