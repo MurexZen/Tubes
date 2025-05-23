@@ -134,9 +134,9 @@ func editOption(dT *arrData, cDT *int) {
 
 	switch opsi {
 	case 1:
-		editSpecific(dT, cDT, tanyaLine)
+		editSpecific(dT, cDT, tanyaLine-1)
 	case 2:
-		editLine(dT, cDT, tanyaLine)
+		editLine(dT, cDT, tanyaLine-1)
 	default:
 		fmt.Println("\t\t     [INVALID]")
 	}
