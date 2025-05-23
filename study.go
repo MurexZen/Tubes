@@ -98,15 +98,15 @@ func add(T *arrData, n *int) {
 
 func del(T *arrData, n *int) {
 	var index int
-	fmt.Print("\nMasukkan indeks data yang ingin dihapus (mulai dari 0): ")
+	fmt.Print("\nMasukkan indeks data yang ingin dihapus: ")
 	fmt.Scan(&index)
 
-	if index < 0 || index >= *n {
+	if index < 0 || index-1 >= *n {
 		fmt.Println("[!] Indeks tidak valid.")
 		return
 	}
 
-	for i := index; i < *n-1; i++ {
+	for i := index-1; i < *n-1; i++ {
 		T[i] = T[i+1]
 	}
 
@@ -204,7 +204,7 @@ func editSpecific(T *arrData, n *int, indek int) {
 }
 
 func menu() {
-	fmt.Println("1. TAMBAHKAN DATA")
+	fmt.Println("1. EDIT LINE")
 	fmt.Println("2. EDIT DATA")
 	fmt.Println("3. CARI DATA")
 	fmt.Println("4. URUTKAN DATA")
@@ -213,11 +213,31 @@ func menu() {
 }
 
 func tesData(info *arrData, tInfo *int) {
-	info[0] = datuma{"Desain Logo Brand", "Amamiya Ren", "Sedang dikerjakan", 1500000, deadline{2025, 6, 1}}
-	info[1] = datuma{"Website Portfolio", "Indra Shalala", "Selesai", 800000, deadline{2025, 5, 20}}
-	info[2] = datuma{"Postingan Threads", "sayaRajen", "Pending", 202000, deadline{2025, 5, 25}}
-	info[3] = datuma{"School Project", "user123", "Sedang dikerjakan", 500000, deadline{2025, 6, 16}}
-	info[4] = datuma{"perawatan akun", "NinjaOrganik", "selesai", 489000, deadline{2025, 2, 8}}
+	info[0].proyek = "DesainLogoBrand"
+	info[0].klien = "AmamiyaRen"
+	info[0].deadline = deadline{2025,6,1}
+	info[0].status = "Sedang dikerjakan"
+	info[0].bayaran = 1500000
+	info[1].proyek = "WebsitePortofolio"
+	info[1].klien = "IndraShalala"
+	info[1].deadline = deadline{2025,5,20}
+	info[1].status = "Selesai"
+	info[1].bayaran = 800000
+	info[2].proyek = "PostinganThreads"
+	info[2].klien = "sayaRajen"
+	info[2].deadline = deadline{2025,5,25}
+	info[2].status = "Pending"
+	info[2].bayaran = 202000
+	info[3].proyek = "SchoolProject"
+	info[3].klien = "user123"
+	info[3].deadline = deadline{2025,6,16}
+	info[3].status = "Sedangdikerjakan"
+	info[3].bayaran = 500000
+	info[4].proyek = "perawatanakun"
+	info[4].klien = "NinjaOrganik"
+	info[4].deadline = deadline{2025,2,8}
+	info[4].status = "selesai"
+	info[4].bayaran = 489000
 	*tInfo = 5
 }
 
@@ -235,7 +255,7 @@ func searchOption(dT *arrData, cDT *int) {
 
 	switch opsi {
 	case 1:
-		searchNamaBin(dT, cDT, keyword, "Klien")
+		searchNamaSeq(dT, cDT, keyword, "Klien")
 	case 2:
 		searchNamaSeq(dT, cDT, keyword, "Proyek")
 	default:
