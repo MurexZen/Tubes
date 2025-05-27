@@ -324,12 +324,12 @@ func searchNamaBin(T *arrData, n *int, kW, by string) {
 }
 
 func showTable(dT *arrData, cDT int) {
-	fmt.Println("\n==================== TABEL DATA PROYEK ====================")
-	fmt.Println("No\tProyek\t\tKlien\t\tDeadline\tStatus\tBayaran")
-	fmt.Println("--------------------------------------------------------------------")
+	fmt.Println("\n==================== TABEL DATA PROYEK =====================================================")
+	fmt.Printf("%-4s %-25s %-20s %-12s %-20s %-10s\n", "No", "Proyek", "Klien", "Deadline", "Status", "Bayaran")
+	fmt.Println("---------------------------------------------------------------------------------------------")
 
 	for i := 0; i < cDT; i++ {
-		fmt.Printf("%d\t%s\t%s\t%d-%d-%d\t%s\tRp %d\n",
+		fmt.Printf("%-4d %-25s %-20s %04d-%02d-%02d   %-20s Rp %-10d\n",
 			i+1,
 			dT[i].proyek,
 			dT[i].klien,
@@ -339,7 +339,9 @@ func showTable(dT *arrData, cDT int) {
 			dT[i].status,
 			dT[i].bayaran)
 	}
+	fmt.Println("=============================================================================================")
 }
+
 
 func sortOption(dT *arrData, cDT int) {
 	var opsi int
