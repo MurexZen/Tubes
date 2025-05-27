@@ -330,14 +330,7 @@ func showTable(dT *arrData, cDT int) {
 
 	for i := 0; i < cDT; i++ {
 		fmt.Printf("%-4d %-25s %-20s %04d-%02d-%02d   %-20s Rp %-10d\n",
-			i+1,
-			dT[i].proyek,
-			dT[i].klien,
-			dT[i].deadline.tahun,
-			dT[i].deadline.bulan,
-			dT[i].deadline.tanggal,
-			dT[i].status,
-			dT[i].bayaran)
+			i+1,dT[i].proyek,dT[i].klien,dT[i].deadline.tahun,dT[i].deadline.bulan,dT[i].deadline.tanggal,dT[i].status,dT[i].bayaran)
 	}
 	fmt.Println("=============================================================================================")
 }
