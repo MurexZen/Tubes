@@ -371,9 +371,10 @@ func typeSortInsertion(T *arrData, n *int, by string) {
 	for i := 1; i < *n; i++ {
 		temp = T[i]
 		j := i - 1
+		swap := true
 
-		for j >= 0 {
-			swap := false
+		for j >= 0 && swap {
+			swap = false
 
 			if by == "deadline_asc" {
 				if convertDate(T[j].deadline) > convertDate(temp.deadline) {
@@ -396,15 +397,15 @@ func typeSortInsertion(T *arrData, n *int, by string) {
 			if swap {
 				T[j+1] = T[j]
 				j--
-			} else {
-				break
 			}
 		}
 		T[j+1] = temp
 	}
+
 	fmt.Println("\nData berhasil diurutkan berdasarkan", by)
 	showTable(T, *n)
 }
+
 
 func typeSortSelection(T *arrData, n *int, by string) {
 	for i := 0; i < *n; i++ {
