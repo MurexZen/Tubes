@@ -18,13 +18,13 @@ type datuma struct {
 	deadline deadline
 }
 
-type arrData [NMAX]datuma // Corrected the array type definition
+type arrData [NMAX]datuma 
 
 func main() {
 	var isiDatuma arrData
 	var n, countDatuma int
 
-	tesData(&isiDatuma, &countDatuma) // Pass the address of isiDatuma
+	tesData(&isiDatuma, &countDatuma) 
 
 	for n < 6 {
 		menu()
@@ -98,11 +98,11 @@ func add(T *arrData, n *int) {
 
 func del(T *arrData, n *int) {
 	var index int
-	fmt.Print("\nMasukkan indeks data yang ingin dihapus: ")
+	fmt.Print("\nMasukkan indexs data yang ingin dihapus: ")
 	fmt.Scan(&index)
 
 	if index < 0 || index-1 >= *n {
-		fmt.Println("[!] Indeks tidak valid.")
+		fmt.Println("[!] indexs tidak valid.")
 		return
 	}
 
@@ -166,7 +166,7 @@ func editLine(T *arrData, n *int, index int) {
 	fmt.Scan(&T[index].bayaran)
 }
 
-func editSpecific(T *arrData, n *int, indek int) {
+func editSpecific(T *arrData, n *int, index int) {
 	var opsi int
 	fmt.Println("\n[EDIT SPESIFIK FIELD]")
 	fmt.Println("1. Nama Proyek")
@@ -180,24 +180,24 @@ func editSpecific(T *arrData, n *int, indek int) {
 	switch opsi {
 	case 1:
 		fmt.Print("Masukkan nama proyek baru: ")
-		fmt.Scan(&T[indek].proyek)
+		fmt.Scan(&T[index].proyek)
 	case 2:
 		fmt.Print("Masukkan nama klien baru: ")
-		fmt.Scan(&T[indek].klien)
+		fmt.Scan(&T[index].klien)
 	case 3:
 		fmt.Print("Masukkan status baru: ")
-		fmt.Scan(&T[indek].status)
+		fmt.Scan(&T[index].status)
 	case 4:
 		fmt.Print("Masukkan bayaran baru: ")
-		fmt.Scan(&T[indek].bayaran)
+		fmt.Scan(&T[index].bayaran)
 	case 5:
 		fmt.Println("Masukkan deadline baru:")
 		fmt.Print("Tahun  : ")
-		fmt.Scan(&T[indek].deadline.tahun)
+		fmt.Scan(&T[index].deadline.tahun)
 		fmt.Print("Bulan  : ")
-		fmt.Scan(&T[indek].deadline.bulan)
+		fmt.Scan(&T[index].deadline.bulan)
 		fmt.Print("Tanggal: ")
-		fmt.Scan(&T[indek].deadline.tanggal)
+		fmt.Scan(&T[index].deadline.tanggal)
 	default:
 		fmt.Println("[!] Pilihan tidak valid.")
 	}
@@ -216,7 +216,7 @@ func tesData(info *arrData, tInfo *int) {
 	info[0].proyek = "DesainLogoBrand"
 	info[0].klien = "AmamiyaRen"
 	info[0].deadline = deadline{2025,6,1}
-	info[0].status = "Sedang dikerjakan"
+	info[0].status = "Dikerjakan"
 	info[0].bayaran = 1500000
 	info[1].proyek = "WebsitePortofolio"
 	info[1].klien = "IndraShalala"
@@ -226,17 +226,17 @@ func tesData(info *arrData, tInfo *int) {
 	info[2].proyek = "PostinganThreads"
 	info[2].klien = "sayaRajen"
 	info[2].deadline = deadline{2025,5,25}
-	info[2].status = "Pending"
+	info[2].status = "Ditahan"
 	info[2].bayaran = 202000
 	info[3].proyek = "SchoolProject"
 	info[3].klien = "user123"
 	info[3].deadline = deadline{2025,6,16}
-	info[3].status = "Sedangdikerjakan"
+	info[3].status = "Dikerjakan"
 	info[3].bayaran = 500000
 	info[4].proyek = "perawatanakun"
 	info[4].klien = "NinjaOrganik"
 	info[4].deadline = deadline{2025,2,8}
-	info[4].status = "selesai"
+	info[4].status = "Selesai"
 	info[4].bayaran = 489000
 	*tInfo = 5
 }
@@ -324,7 +324,7 @@ func searchNamaBin(T *arrData, n *int, kW, by string) {
 }
 
 func showTable(dT *arrData, cDT int) {
-	fmt.Println("\n==================== TABEL DATA PROYEK =====================================================")
+	fmt.Println("\n===================================== TABEL DATA PROYEK =====================================")
 	fmt.Printf("%-4s %-25s %-20s %-12s %-20s %-10s\n", "No", "Proyek", "Klien", "Deadline", "Status", "Bayaran")
 	fmt.Println("---------------------------------------------------------------------------------------------")
 
@@ -361,7 +361,7 @@ func sortOption(dT *arrData, cDT int) {
 }
 
 func convertDate(date deadline) int {
-	// Convert from date structure to an integer format YYYYMMDD
+	// mengubah dari 2025-10-21 jadi 20251021
 	return date.tahun*10000 + date.bulan*100 + date.tanggal
 }
 
@@ -429,7 +429,7 @@ func typeSortSelection(T *arrData, n *int, by string) {
 			}
 		}
 		if min != i {
-			T[i], T[min] = T[min], T[i] // Swap
+			T[i], T[min] = T[min], T[i] 
 		}
 	}
 	fmt.Println("\nData berhasil diurutkan berdasarkan", by)
