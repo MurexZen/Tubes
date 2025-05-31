@@ -49,6 +49,8 @@ func main() {
 }
 
 func dataLine(dT *arrData, cDT *int) {
+// I.S. Data array dan countData terdefinisi
+// F.S. User memilih opsi menambahkan atau menghapus, fungsi add/del dijalankan
 	var opsi int
 	fmt.Println("\n\t\t     MENAMBAHKAN ATAU MENGHAPUS ? ")
 	fmt.Println("\t\t     1. MENAMBAHKAN")
@@ -66,10 +68,12 @@ func dataLine(dT *arrData, cDT *int) {
 }
 
 func add(T *arrData, n *int) {
+// I.S. Array T dan nilai n terdefinisi
+// F.S. Data baru ditambahkan ke indeks ke-n dan nilai n bertambah satu
 	if *n >= NMAX {
 		fmt.Println("[!] Kapasitas data penuh. Tidak bisa menambah lagi.")
 		return
-	}
+	}// ini hanya antisipasi jika datanya penuh tapi kemungkinan tidak karena memiliki Kapasitas array yang besar
 
 	fmt.Println("\n[INPUT DATA BARU]")
 	fmt.Print("Masukkan nama proyek: ")
@@ -97,6 +101,8 @@ func add(T *arrData, n *int) {
 }
 
 func del(T *arrData, n *int) {
+// I.S. Array T terdefinisi, index valid dimasukkan oleh user
+// F.S. Data pada index dihapus, data setelahnya digeser, dan n berkurang satu	
 	var index int
 	fmt.Print("\nMasukkan indexs data yang ingin dihapus: ")
 	fmt.Scan(&index)
@@ -117,6 +123,8 @@ func del(T *arrData, n *int) {
 }
 
 func editOption(dT *arrData, cDT *int) {
+// I.S. User memilih line dan opsi edit
+// F.S. Fungsi editSpecific atau editLine dijalankan sesuai pilihan user
 	var opsi int
 	var tanyaLine int
 	fmt.Println("\n\t\t     PILIH LINE UNTUK DIEDIT: ")
@@ -125,7 +133,7 @@ func editOption(dT *arrData, cDT *int) {
 	if tanyaLine < 0 || tanyaLine >= *cDT {
 		fmt.Println("[!] Line tidak valid.")
 		return
-	}
+	}//jaga jaga aja kalo nguawur
 
 	fmt.Println("\n\t\t     PILIH JENIS TIPE DATA: ")
 	fmt.Println("\t\t     1. Edit Spesifik")
@@ -143,6 +151,8 @@ func editOption(dT *arrData, cDT *int) {
 }
 
 func editLine(T *arrData, n *int, index int) {
+// I.S. Array T terdefinisi, index baris valid dimasukkan
+// F.S. Data pada baris ke-index diganti secara keseluruhan oleh user	
 	fmt.Println("\n[EDIT SELURUH LINE]")
 
 	fmt.Print("Masukkan nama proyek: ")
@@ -167,6 +177,8 @@ func editLine(T *arrData, n *int, index int) {
 }
 
 func editSpecific(T *arrData, n *int, index int) {
+// I.S. Array T terdefinisi, index baris valid dan opsi kolom dipilih user
+// F.S. Kolom tertentu pada baris ke-index diperbarui oleh input user	
 	var opsi int
 	fmt.Println("\n[EDIT SPESIFIK FIELD]")
 	fmt.Println("1. Nama Proyek")
@@ -204,6 +216,8 @@ func editSpecific(T *arrData, n *int, index int) {
 }
 
 func menu() {
+// I.S. User memilih menu 1–6
+// F.S. Fungsi sesuai pilihan dijalankan
 	fmt.Println("1. EDIT LINE")
 	fmt.Println("2. EDIT DATA")
 	fmt.Println("3. CARI DATA")
@@ -213,6 +227,8 @@ func menu() {
 }
 
 func tesData(info *arrData, tInfo *int) {
+// I.S. Belum ada data contoh dalam array
+// F.S. Array info berisi 5 data proyek contoh, *tInfo bernilai 5
 	info[0].proyek = "DesainLogoBrand"
 	info[0].klien = "AmamiyaRen"
 	info[0].deadline = deadline{2025,6,1}
@@ -242,6 +258,8 @@ func tesData(info *arrData, tInfo *int) {
 }
 
 func searchOption(dT *arrData, cDT *int) {
+// I.S. Data array dan keyword pencarian terdefinisi
+// F.S. Memanggil pencarian nama secara binari atau sequential berdasarkan pilihan user	
 	var opsi int
 	var keyword string
 
@@ -264,6 +282,8 @@ func searchOption(dT *arrData, cDT *int) {
 }
 
 func searchNamaSeq(T *arrData, n *int, kW, by string) {
+// I.S. Data array T, jumlah data n, keyword dan jenis pencarian (by) sudah ditentukan
+// F.S. Menampilkan data yang sesuai keyword (klien/proyek) jika ditemukan	
 	var found bool = false
 
 	for i := 0; i < *n; i++ {
@@ -278,12 +298,14 @@ func searchNamaSeq(T *arrData, n *int, kW, by string) {
 		}
 	}
 
-	if !found {
+	if found == false {
 		fmt.Println("\n[!] Data tidak ditemukan.")
 	}
 }
 
 func searchNamaBin(T *arrData, n *int, kW, by string) {
+// I.S. Data array T terurut berdasarkan klien/proyek, n, keyword, dan jenis pencarian diberikan
+// F.S. Menampilkan data jika ditemukan menggunakan metode binary search	
 	var left, right, mid int
 	var current string
 	var found bool = false
@@ -318,12 +340,14 @@ func searchNamaBin(T *arrData, n *int, kW, by string) {
 		}
 	}
 
-	if !found {
+	if found == false {
 		fmt.Println("\n[!] Data tidak ditemukan.")
 	}
 }
 
 func showTable(dT *arrData, cDT int) {
+// I.S. Data array T dan cDT terdefinisi
+// F.S. Tabel proyek ditampilkan di terminal
 	fmt.Println("\n===================================== TABEL DATA PROYEK =====================================")
 	fmt.Printf("%-4s %-25s %-20s %-12s %-20s %-10s\n", "No", "Proyek", "Klien", "Deadline", "Status", "Bayaran")
 	fmt.Println("---------------------------------------------------------------------------------------------")
@@ -337,6 +361,8 @@ func showTable(dT *arrData, cDT int) {
 
 
 func sortOption(dT *arrData, cDT int) {
+// I.S. User memilih opsi sorting, array T dan countData sudah terisi
+// F.S. Data terurut dan tabel ditampilkan	
 	var opsi int
 	fmt.Println("\n\t\t     OPSI SORT DATA")
 	fmt.Println("\t\t     1. Berdasarkan Deadline[kecil -> terbesar]")
@@ -366,37 +392,33 @@ func convertDate(date deadline) int {
 }
 
 func typeSortInsertion(T *arrData, n *int, by string) {
+// I.S. Array T dan jumlah data n terdefinisi
+// F.S. Array T terurut sesuai mode (deadline/bayaran naik/turun)	
 	var temp datuma
+	var i, j int
+	var swap bool
 
-	for i := 1; i < *n; i++ {
+	for i = 1; i < *n; i++ {
 		temp = T[i]
-		j := i - 1
-		swap := true
+		j = i - 1
+		swap = true
 
 		for j >= 0 && swap {
 			swap = false
 
-			if by == "deadline_asc" {
-				if convertDate(T[j].deadline) > convertDate(temp.deadline) {
-					swap = true
-				}
-			} else if by == "deadline_desc" {
-				if convertDate(T[j].deadline) < convertDate(temp.deadline) {
-					swap = true
-				}
-			} else if by == "bayaran_asc" {
-				if T[j].bayaran > temp.bayaran {
-					swap = true
-				}
-			} else if by == "bayaran_desc" {
-				if T[j].bayaran < temp.bayaran {
-					swap = true
-				}
+			if by == "deadline_asc" && convertDate(T[j].deadline) > convertDate(temp.deadline) {
+				swap = true
+			} else if by == "deadline_desc" && convertDate(T[j].deadline) < convertDate(temp.deadline) {
+				swap = true
+			} else if by == "bayaran_asc" && T[j].bayaran > temp.bayaran {
+				swap = true
+			} else if by == "bayaran_desc" && T[j].bayaran < temp.bayaran {
+				swap = true
 			}
 
 			if swap {
 				T[j+1] = T[j]
-				j--
+				j = j - 1
 			}
 		}
 		T[j+1] = temp
@@ -407,32 +429,40 @@ func typeSortInsertion(T *arrData, n *int, by string) {
 }
 
 
+
 func typeSortSelection(T *arrData, n *int, by string) {
-	for i := 0; i < *n; i++ {
-		min := i
-		for j := i + 1; j < *n; j++ {
-			if by == "deadline_asc" {
-				if convertDate(T[j].deadline) < convertDate(T[min].deadline) {
-					min = j
-				}
-			} else if by == "deadline_desc" {
-				if convertDate(T[j].deadline) > convertDate(T[min].deadline) {
-					min = j
-				}
-			} else if by == "bayaran_asc" {
-				if T[j].bayaran < T[min].bayaran {
-					min = j
-				}
-			} else if by == "bayaran_desc" {
-				if T[j].bayaran > T[min].bayaran {
-					min = j
-				}
+// I.S. Array T dan jumlah data n terdefinisi
+// F.S. Array T terurut sesuai mode (deadline/bayaran naik/turun)	
+	var i, j, idx int
+	var temp datuma
+	var swap bool
+
+	for i = 0; i < *n; i++ {
+		idx = i
+		for j = i + 1; j < *n; j++ {
+			swap = false
+
+			if by == "deadline_asc" && convertDate(T[j].deadline) < convertDate(T[idx].deadline) {
+				swap = true
+			} else if by == "deadline_desc" && convertDate(T[j].deadline) > convertDate(T[idx].deadline) {
+				swap = true
+			} else if by == "bayaran_asc" && T[j].bayaran < T[idx].bayaran {
+				swap = true
+			} else if by == "bayaran_desc" && T[j].bayaran > T[idx].bayaran {
+				swap = true
+			}
+
+			if swap {
+				idx = j
 			}
 		}
-		if min != i {
-			T[i], T[min] = T[min], T[i] 
+		if idx != i {
+			temp = T[i]
+			T[i] = T[idx]
+			T[idx] = temp
 		}
 	}
+
 	fmt.Println("\nData berhasil diurutkan berdasarkan", by)
 	showTable(T, *n)
 }
