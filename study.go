@@ -133,7 +133,7 @@ func editOption(dT *arrData, cDT *int) {
 	if tanyaLine < 0  {
 		fmt.Println("[!] Nomer tidak valid.")
 		return
-	}//jaga jaga aja kalo nguawur
+	}//Antisipasi aksi user yang tidak terduga
 
 	fmt.Println("\n\t\t     PILIH JENIS TIPE DATA: ")
 	fmt.Println("\t\t     1. Edit Spesifik")
