@@ -314,13 +314,10 @@ func searchNamaBin(T *arrData, n *int, kW, by string) {
 	var temp datuma
 	
 	
-	for i = 0; i < *n; i++ {// Salin array ke array baru
+	for i = 0; i < *n; i++ {// salin array ke array baru
 		urut[i] = T[i]
 	}
-
-	// ngurutin berdasar by pake insertion
-	
-	for i = 1; i < *n; i++ {
+	for i = 1; i < *n; i++ {// ngurutin berdasar by pake insertion
 		temp = urut[i]
 		j = i - 1
 		for j >= 0 && (
