@@ -229,28 +229,28 @@ func menu() {
 func tesData(info *arrData, tInfo *int) {
 // I.S. Belum ada data contoh dalam array
 // F.S. Array info berisi 5 data proyek contoh, *tInfo bernilai 5
-	info[0].proyek = "DesainLogoBrand"
-	info[0].klien = "AmamiyaRen"
+	info[0].proyek = "Desainlogobrand"
+	info[0].klien = "Amamiyaren"
 	info[0].deadline = deadline{2025,6,1}
 	info[0].status = "Dikerjakan"
 	info[0].bayaran = 1500000
-	info[1].proyek = "WebsitePortofolio"
-	info[1].klien = "IndraShalala"
+	info[1].proyek = "Websiteportofolio"
+	info[1].klien = "Indrashalala"
 	info[1].deadline = deadline{2025,5,20}
 	info[1].status = "Selesai"
 	info[1].bayaran = 800000
-	info[2].proyek = "PostinganThreads"
-	info[2].klien = "sayaRajen"
+	info[2].proyek = "Postinganthreads"
+	info[2].klien = "Sayarajen"
 	info[2].deadline = deadline{2025,5,25}
 	info[2].status = "Ditahan"
 	info[2].bayaran = 202000
-	info[3].proyek = "SchoolProject"
-	info[3].klien = "user123"
+	info[3].proyek = "Schoolproject"
+	info[3].klien = "User123"
 	info[3].deadline = deadline{2025,6,16}
 	info[3].status = "Dikerjakan"
 	info[3].bayaran = 500000
-	info[4].proyek = "perawatanakun"
-	info[4].klien = "NinjaOrganik"
+	info[4].proyek = "Perawatanakun"
+	info[4].klien = "Ninjaorganik"
 	info[4].deadline = deadline{2025,2,8}
 	info[4].status = "Selesai"
 	info[4].bayaran = 489000
@@ -273,9 +273,9 @@ func searchOption(dT *arrData, cDT *int) {
 
 	switch opsi {
 	case 1:
-		searchNamaSeq(dT, cDT, keyword, "Klien")
+		searchNamaBin(dT, cDT, keyword, "Klien")
 	case 2:
-		searchNamaSeq(dT, cDT, keyword, "Proyek")
+		searchNamaBin(dT, cDT, keyword, "Proyek")
 	default:
 		fmt.Println("\t\t     [INVALID]")
 	}
@@ -304,39 +304,58 @@ func searchNamaSeq(T *arrData, n *int, kW, by string) {
 }
 
 func searchNamaBin(T *arrData, n *int, kW, by string) {
-// I.S. Data array T terurut berdasarkan klien/proyek, n, keyword, dan jenis pencarian diberikan
-// F.S. Menampilkan data jika ditemukan menggunakan metode binary search	
-	var left, right, mid int
+// I.S. Data array proyek (T), jumlah data (n), keyword, dan jenis pencarian by "klien" atau "proyek" sudah ditentukan
+// F.S. Menampilkan data proyek yang sesuai dengan keyword berdasarkan jenis pencarian jika tidak ada, tampilkan pesan tidak ditemukan
+
+	var urut arrData
+	var i, j, left, right, mid int
 	var current string
 	var found bool = false
+	var temp datuma
+	
+	
+	for i = 0; i < *n; i++ {// Salin array ke array baru
+		urut[i] = T[i]
+	}
 
+	// ngurutin berdasar by pake insertion
+	
+	for i = 1; i < *n; i++ {
+		temp = urut[i]
+		j = i - 1
+		for j >= 0 && (
+			(by == "Klien" && urut[j].klien > temp.klien) ||
+			(by == "Proyek" && urut[j].proyek > temp.proyek)) {
+			urut[j+1] = urut[j]
+			j = j - 1
+		}
+		urut[j+1] = temp
+	}
 	left = 0
 	right = *n - 1
 
 	for left <= right && !found {
 		mid = (left + right) / 2
-
 		if by == "Klien" {
-			current = T[mid].klien
-		} else if by == "Proyek" {
-			current = T[mid].proyek
+			current = urut[mid].klien
 		} else {
-			fmt.Println("[!] Jenis pencarian tidak valid.")
-			return
+			current = urut[mid].proyek
 		}
 
 		if kW == current {
 			fmt.Println("\n[DATA DITEMUKAN]")
-			fmt.Println("Proyek   :", T[mid].proyek)
-			fmt.Println("Klien    :", T[mid].klien)
-			fmt.Println("Deadline :", T[mid].deadline.tahun, "-", T[mid].deadline.bulan, "-", T[mid].deadline.tanggal)
-			fmt.Println("Status   :", T[mid].status)
-			fmt.Println("Bayaran  : Rp", T[mid].bayaran)
+			fmt.Println("Proyek   :", urut[mid].proyek)
+			fmt.Println("Klien    :", urut[mid].klien)
+			fmt.Println("Deadline :", urut[mid].deadline.tahun, "-", urut[mid].deadline.bulan, "-", urut[mid].deadline.tanggal)
+			fmt.Println("Status   :", urut[mid].status)
+			fmt.Println("Bayaran  : Rp", urut[mid].bayaran)
 			found = true
-		} else if kW < current {
-			right = mid - 1
 		} else {
-			left = mid + 1
+			if kW < current {
+				right = mid - 1
+			} else {
+				left = left + 1
+			}
 		}
 	}
 
@@ -344,6 +363,8 @@ func searchNamaBin(T *arrData, n *int, kW, by string) {
 		fmt.Println("\n[!] Data tidak ditemukan.")
 	}
 }
+
+
 
 func showTable(dT *arrData, cDT int) {
 // I.S. Data array T dan cDT terdefinisi
