@@ -104,11 +104,11 @@ func del(T *arrData, n *int) {
 // I.S. Array T terdefinisi, index valid dimasukkan oleh user
 // F.S. Data pada index dihapus, data setelahnya digeser, dan n berkurang satu	
 	var index int
-	fmt.Print("\nMasukkan indexs data yang ingin dihapus: ")
+	fmt.Print("\nMasukkan nomer data yang ingin dihapus: ")
 	fmt.Scan(&index)
 
 	if index < 0 || index-1 >= *n {
-		fmt.Println("[!] indexs tidak valid.")
+		fmt.Println("[!] [INVALID]")
 		return
 	}
 
@@ -130,8 +130,8 @@ func editOption(dT *arrData, cDT *int) {
 	fmt.Println("\n\t\t     PILIH LINE UNTUK DIEDIT: ")
 	fmt.Scan(&tanyaLine)
 
-	if tanyaLine < 0 || tanyaLine >= *cDT {
-		fmt.Println("[!] Line tidak valid.")
+	if tanyaLine < 0  {
+		fmt.Println("[!] Nomer tidak valid.")
 		return
 	}//jaga jaga aja kalo nguawur
 
@@ -153,7 +153,7 @@ func editOption(dT *arrData, cDT *int) {
 func editLine(T *arrData, n *int, index int) {
 // I.S. Array T terdefinisi, index baris valid dimasukkan
 // F.S. Data pada baris ke-index diganti secara keseluruhan oleh user	
-	fmt.Println("\n[EDIT SELURUH LINE]")
+	fmt.Println("\n[EDIT SELURUH BARIS]")
 
 	fmt.Print("Masukkan nama proyek: ")
 	fmt.Scan(&T[index].proyek)
@@ -180,7 +180,7 @@ func editSpecific(T *arrData, n *int, index int) {
 // I.S. Array T terdefinisi, index baris valid dan opsi kolom dipilih user
 // F.S. Kolom tertentu pada baris ke-index diperbarui oleh input user	
 	var opsi int
-	fmt.Println("\n[EDIT SPESIFIK FIELD]")
+	fmt.Println("\n[EDIT SPESIFIK PART]")
 	fmt.Println("1. Nama Proyek")
 	fmt.Println("2. Nama Klien")
 	fmt.Println("3. Status")
@@ -273,7 +273,7 @@ func searchOption(dT *arrData, cDT *int) {
 
 	switch opsi {
 	case 1:
-		searchNamaBin(dT, cDT, keyword, "Klien")
+		searchNamaSeq(dT, cDT, keyword, "Klien")
 	case 2:
 		searchNamaBin(dT, cDT, keyword, "Proyek")
 	default:
@@ -314,7 +314,7 @@ func searchNamaBin(T *arrData, n *int, kW, by string) {
 	var temp datuma
 	
 	
-	for i = 0; i < *n; i++ {// salin array ke array baru
+	for i = 0; i < *n; i++ {// Salin array ke array baru
 		urut[i] = T[i]
 	}
 	for i = 1; i < *n; i++ {// ngurutin berdasar by pake insertion
